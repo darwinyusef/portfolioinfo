@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Portafolio Personal</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+    <style>
+      #frontend,
+      #databases, #backend{
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      #frontend img, #backend img, #databases img {
+        width: 100px;
+      }
+      #profile-picture {
+        width: 200px;
+        border-radius: 50%;
+        filter: grayscale(100%);
+        -webkit-transition: 1s -webkit-filter linear;
+        -moz-transition: 1s -moz-filter linear;
+        -moz-transition: 1s filter linear;
+        -ms-transition: 1s -ms-filter linear;
+        -o-transition: 1s -o-filter linear;
+        transition: 1s filter linear, 1s -webkit-filter linear;
+      }
+      #profile-picture:hover {
+        filter: grayscale(0%);
+      }
+      .obk {
+        color: rgb(234, 255, 0);
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background="#660000">
+          <img id="profile-picture" src="./img/personal.JPG" alt="" />
+          <h3>Yusef González Triana</h3>
+          <p>
+            <small>👨‍💻 Ingeniero de sistemas y desarrollador fullstack 👨‍💻</small>
+          </p>
+          <i class="fa fa-stack-exchange" aria-hidden="true"></i>
+        </section>
+        <section id="personal-information" data-background="#660000">
+          <h2>😃 Información personal 😃</h2>
+          <ul>
+            <li>
+              <span class="obk">Nombre:</span>
+              <span id="first-name"></span> <span id="last-name"></span>
+            </li>
+            <li>
+              <span class="obk">Teléfono:</span>
+              <span id="phone"></span>
+            </li>
+            <li>
+              <span class="obk">Correo electrónico:</span>
+              <span id="email"></span>
+            </li>
+            <li>
+              <span class="obk">Location:</span>
+              <span id="location"></span>
+            </li>
+          </ul>
+        </section>
+        <section id="professional-profile" data-background="#660000">
+          <h2>Perfil profesional</h2>
+          <p id="summary"></p>
+        </section>
+        <section id="professional-profile" data-background="#770011">
+          <h3>Frontend</h3>
+          <ul id="frontend"></ul>
+        </section>
+        <section id="professional-profile" data-background="#87A96B" style="min-width: 1000px">
+          <h3>Backend</h3>
+          <ul id="backend"></ul>
+        </section>
+        <section id="professional-profile" data-background="#720e9e">
+          <h3>Bases de datos</h3>
+          <ul id="databases"></ul>
+        </section>
+        <section id="education" data-background="#990033">
+          <h2>Formación académica</h2>
+          <ul id="education-list" style="zoom: 0.7"></ul>
+        </section>
+        <!-- <section id="courses" data-background="#AA0044">
+          <h2>Cursos y certificaciones</h2>
+          <ul id="courses-list" style="zoom: 0.7; overflow-y: scroll; height: 600px"></ul>
+        </section>
+        <section id="work-experience" data-background="#BB0055">
+          <h2>Experiencia laboral</h2>
+          <ul id="work-experience-list" style="zoom: 0.7; overflow-y: scroll; height: 600px"></ul>
+        </section>
+        <section id="personal-references" data-background="#CC0066">
+          <h2>Referencias personales</h2>
+          <ul id="personal-references-list" style="zoom: 0.7;"></ul>
+        </section> -->
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+
+    <script>
+      fetch(
+        "https://gist.githubusercontent.com/darwinyusef/d222ef4892f39367e3d0928e685baaa2/raw"
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const personalInformation = data.personal_information;
+          const professionalProfile = data.professional_profile;
+          const education = data.education;
+          const courses = data.courses;
+          const workExperience = data.work_experience;
+          const personalReferences = data.personal_references;
+
+          document.getElementById("first-name").textContent =
+            personalInformation.first_name;
+          document.getElementById("last-name").textContent =
+            personalInformation.last_name;
+          document.getElementById("phone").textContent =
+            personalInformation.phone;
+          document.getElementById("email").textContent =
+            personalInformation.email;
+          document.getElementById("location").textContent =
+            personalInformation.location;
+
+          document.getElementById("summary").textContent =
+            professionalProfile.summary;
+          const technologiesList = document.getElementById("frontend");
+          professionalProfile.frontend.forEach((technology) => {
+            const technologyListItem = document.createElement("li");
+            const imageTech = document.createElement("img");
+            imageTech.src=`img/${technology}.svg`;
+            technologiesList.appendChild(imageTech);
+          });
+
+          const technologiesList2 = document.getElementById("backend");
+          professionalProfile.backend.forEach((back) => {
+            const backListItem = document.createElement("li");
+            const imageTech = document.createElement("img");
+            imageTech.src=`img/${back}.svg`;
+            technologiesList2.appendChild(imageTech);
+          });
+          
+          const databasesList = document.getElementById("databases");
+          professionalProfile.databases.forEach((db) => {
+            const dbListItem = document.createElement("li");
+            const imageTech = document.createElement("img");
+            imageTech.src=`img/${db}.svg`;
+            databasesList.appendChild(imageTech);
+          });
+
+          const educationList = document.getElementById("education-list");
+          education.forEach((educationItem) => {
+            const educationListItem = document.createElement("li");
+            educationListItem.textContent = `${educationItem.level} - ${educationItem.institution} - ${educationItem.duration}`;
+            educationList.appendChild(educationListItem);
+          });
+
+          const coursesList = document.getElementById("courses-list");
+          courses.forEach((course) => {
+            const courseListItem = document.createElement("li");
+            courseListItem.textContent = `${course.title} - ${course.institution} - ${course.date} - ${course.hours} horas`;
+            coursesList.appendChild(courseListItem);
+          });
+
+          const workExperienceList = document.getElementById(
+            "work-experience-list"
+          );
+          workExperience.forEach((experience) => {
+            const experienceListItem = document.createElement("li");
+            experienceListItem.textContent = `${experience.company} - ${experience.position} - ${experience.duration} - ${experience.supervisor}`;
+            workExperienceList.appendChild(experienceListItem);
+          });
+
+          const personalReferencesList = document.getElementById(
+            "personal-references-list"
+          );
+          personalReferences.forEach((reference) => {
+            const referenceListItem = document.createElement("li");
+            referenceListItem.textContent = `${reference.name} - ${reference.position} - ${reference.company} - ${reference.phone}`;
+            personalReferencesList.appendChild(referenceListItem);
+          });
+        })
+        .catch((error) => console.error(error));
+    </script>
+  </body>
+</html>
